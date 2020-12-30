@@ -4,13 +4,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './bootstrap.min.css';
+import LoginScreen from './screens/LoginScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 const Routing = () => {
     return (
         <Router>
             <Switch>
                 <Route exact path='/' component={App} />
-                {/* <Route path='/leaderboards' component={LeaderBoards} /> */}
+                <Route path='/login' component={LoginScreen} />
+                <Route path='/register' component={RegisterScreen} />
+                <Route path='/profile' component={ProfileScreen} />
             </Switch>
         </Router>
     );
