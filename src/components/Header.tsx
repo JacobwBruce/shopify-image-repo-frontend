@@ -8,7 +8,8 @@ const Header: React.FC = () => {
     const { user, setUser } = useContext(AppContext);
 
     const logoutHandler = () => {
-        // dispatch(logout());
+        localStorage.removeItem('user');
+        setUser({});
     };
 
     return (
