@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { AppContext } from '..';
 
 const Header: React.FC = () => {
-    const userInfo = {};
+    //@ts-ignore
+    const { user, setUser } = useContext(AppContext);
 
     const logoutHandler = () => {
         // dispatch(logout());
@@ -19,13 +21,13 @@ const Header: React.FC = () => {
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto'>
-                            <LinkContainer to='/cart'>
+                            {/* <LinkContainer to='/cart'>
                                 <Nav.Link>
                                     <i className='fas fa-shopping-cart'></i>Cart
                                 </Nav.Link>
-                            </LinkContainer>
+                            </LinkContainer> */}
 
-                            {userInfo ? (
+                            {Object.entries(user).length !== 0 ? (
                                 <NavDropdown title='TESTING' id='username'>
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profile</NavDropdown.Item>

@@ -1,23 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './bootstrap.min.css';
 import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen';
+import { useState } from 'react';
+
+//@ts-ignore
+export const AppContext = React.createContext();
 
 const Routing = () => {
+    const [user, setUser] = useState({});
+
     return (
-        <Router>
-            <Switch>
-                <Route exact path='/' component={App} />
-                <Route path='/login' component={LoginScreen} />
-                <Route path='/register' component={RegisterScreen} />
-                <Route path='/profile' component={ProfileScreen} />
-            </Switch>
-        </Router>
+        <AppContext.Provider value={{ user, setUser }}>
+            <Router>
+                <Switch>
+                    <Route exact path='/' component={HomeScreen} />
+                    <Route path='/login' component={LoginScreen} />
+                    <Route path='/register' component={RegisterScreen} />
+                    <Route path='/profile' component={ProfileScreen} />
+                </Switch>
+            </Router>
+        </AppContext.Provider>
     );
 };
 
