@@ -28,7 +28,7 @@ const Header: React.FC = () => {
                             </LinkContainer> */}
 
                             {Object.entries(user).length !== 0 ? (
-                                <NavDropdown title='TESTING' id='username'>
+                                <NavDropdown title={user.name} id='username'>
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>

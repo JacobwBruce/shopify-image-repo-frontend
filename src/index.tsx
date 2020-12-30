@@ -13,7 +13,7 @@ import { useState } from 'react';
 export const AppContext = React.createContext();
 
 const Routing = () => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')!) || {});
 
     return (
         <AppContext.Provider value={{ user, setUser }}>

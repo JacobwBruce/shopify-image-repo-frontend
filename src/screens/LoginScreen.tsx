@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
+import { login } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 
 interface Props extends RouteComponentProps<any> {}
@@ -22,15 +22,15 @@ const LoginScreen: FC<Props> = ({ location, history }) => {
         }
     }, [history, user, redirect]);
 
-    const submitHandler = (e: FormEvent<HTMLElement>) => {
+    const submitHandler = async (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
-        login();
-    };
-
-    const url = 'https://shopify-image-repo.herokuapp.com';
-    const login = async () => {
-        const user = await axios.post(`${url}/api/users/login`, { email, password });
-        console.log(user);
+        const data = await login(email, password);
+        //@ts-ignore
+        if (data.error) {
+            console.log('error signing in');
+        } else {
+            setUser(data);
+        }
     };
 
     return (
