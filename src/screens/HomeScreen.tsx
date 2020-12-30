@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
-import Header from '../components/Header';
 
 const HomeScreen: FC = () => {
     return (
         <div>
-            <Header />
+            <h1>Home screen</h1>
         </div>
     );
 };

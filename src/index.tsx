@@ -8,6 +8,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import { useState } from 'react';
+import Header from './components/Header';
 
 //@ts-ignore
 export const AppContext = React.createContext();
@@ -18,6 +19,7 @@ const Routing = () => {
     return (
         <AppContext.Provider value={{ user, setUser }}>
             <Router>
+                <Header />
                 <Switch>
                     <Route exact path='/' component={HomeScreen} />
                     <Route path='/login' component={LoginScreen} />

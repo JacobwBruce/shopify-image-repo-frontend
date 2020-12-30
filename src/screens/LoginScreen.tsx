@@ -4,12 +4,14 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
 import { login } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
+import Message from '../components/Message';
 
 interface Props extends RouteComponentProps<any> {}
 
 const LoginScreen: FC<Props> = ({ location, history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState<null | string>(null);
 
     //@ts-ignore
     const { user, setUser } = useContext(AppContext);
@@ -27,7 +29,7 @@ const LoginScreen: FC<Props> = ({ location, history }) => {
         const data = await login(email, password);
         //@ts-ignore
         if (data.error) {
-            console.log('error signing in');
+            setError('Invalid email or password');
         } else {
             setUser(data);
         }
@@ -35,7 +37,8 @@ const LoginScreen: FC<Props> = ({ location, history }) => {
 
     return (
         <FormContainer>
-            <h1>Sign In</h1>
+            <h1 className='mt-3'>Sign In</h1>
+            {error && <Message>{error}</Message>}
             {/* {loading && <Loader />} */}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='email'>
