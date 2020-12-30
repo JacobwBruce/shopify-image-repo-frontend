@@ -11,3 +11,10 @@ export const login = async (email: string, password: string) => {
         return { error };
     }
 };
+
+export const register = async () => {
+    try {
+    } catch (error) {
+        return error;
+    }
+};
