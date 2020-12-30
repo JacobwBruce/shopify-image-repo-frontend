@@ -2,10 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './bootstrap.min.css';
+
+const Routing = () => {
+    return (
+        <Router>
+            <Switch>
+                <Route exact path='/' component={App} />
+                {/* <Route path='/leaderboards' component={LeaderBoards} /> */}
+            </Switch>
+        </Router>
+    );
+};
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Routing />
     </React.StrictMode>,
     document.getElementById('root')
 );
