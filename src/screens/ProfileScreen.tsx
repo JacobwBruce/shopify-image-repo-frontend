@@ -2,9 +2,12 @@ import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
+import { getUserImages } from '../actions/imageActions';
 import { updateProfile } from '../actions/userActions';
+import ImageCollection from '../components/ImageCollection';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import ImageInterface from '../interfaces/ImageInterface';
 
 interface Props extends RouteComponentProps<any> {}
 
@@ -16,6 +19,8 @@ const ProfileScreen: FC<Props> = ({ history }) => {
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [imagesLoading, setImagesLoading] = useState(true);
+    const [images, setImages] = useState<null | Array<ImageInterface>>(null);
 
     //@ts-ignore
     const { user, setUser } = useContext(AppContext);
@@ -26,6 +31,7 @@ const ProfileScreen: FC<Props> = ({ history }) => {
         } else {
             setName(user.name);
             setEmail(user.email);
+            getMyImages();
         }
     }, [history, user]);
 
@@ -45,6 +51,17 @@ const ProfileScreen: FC<Props> = ({ history }) => {
             }
         }
         setLoading(false);
+    };
+
+    const getMyImages = async () => {
+        //@ts-ignore
+        const { data } = await getUserImages();
+
+        if (data.length !== 0) {
+            setImages(data);
+        }
+
+        setImagesLoading(false);
     };
 
     return (
@@ -105,6 +122,13 @@ const ProfileScreen: FC<Props> = ({ history }) => {
             </Col>
             <Col md={9}>
                 <h2>My Images</h2>
+                {imagesLoading ? (
+                    <Loader />
+                ) : !images ? (
+                    <Message variant='info'>You have no images</Message>
+                ) : (
+                    <ImageCollection images={images} />
+                )}
             </Col>
         </Row>
     );
