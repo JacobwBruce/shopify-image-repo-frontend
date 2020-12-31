@@ -10,7 +10,7 @@ const Message: React.FC<Props> = ({ variant, children }) => {
 };
 
 Message.defaultProps = {
-    variant: 'warning',
+    variant: 'danger',
 };
 
 export default Message;
