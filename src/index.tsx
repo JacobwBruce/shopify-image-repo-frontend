@@ -32,9 +32,9 @@ const Routing = () => {
 };
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Routing />
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <Routing />,
+    // </React.StrictMode>,
     document.getElementById('root')
 );
 

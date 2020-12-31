@@ -1,7 +1,10 @@
-import React, { FC, useState, useEffect, FormEvent } from 'react';
+import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
+import { AppContext } from '..';
+import { updateProfile } from '../actions/userActions';
+import Message from '../components/Message';
 
 interface Props extends RouteComponentProps<any> {}
 
@@ -10,39 +13,43 @@ const ProfileScreen: FC<Props> = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
 
-    let userInfo = {};
+    //@ts-ignore
+    const { user, setUser } = useContext(AppContext);
 
-    // useEffect(() => {
-    //     if (!userInfo) {
-    //         history.push('/login');
-    //     } else {
-    //         if (!user.name || !user || success) {
-    //             dispatch({ type: USER_UPDATE_PROFILE_RESET });
-    //             dispatch(getUserDetails('profile'));
-    //             dispatch(listMyOrders());
-    //         } else {
-    //             setName(user.name);
-    //             setEmail(user.email);
-    //         }
-    //     }
-    // }, [history, userInfo, dispatch, user, success]);
+    useEffect(() => {
+        if (Object.entries(user).length === 0) {
+            history.push('/login');
+        } else {
+            setName(user.name);
+            setEmail(user.email);
+        }
+    }, [history, user]);
 
-    const submitHandler = (e: FormEvent<HTMLElement>) => {
+    const submitHandler = async (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            setMessage('Passwords do not match');
+            setError('Passwords do not match');
         } else {
-            // dispatch(updateUserProfile({ id: user._id, name, email, password }));
-            alert('Update profile');
+            const data = await updateProfile(name, email, password);
+            //@ts-ignore
+            if (data.error) {
+                setError('Error updating profile');
+            } else {
+                setUser(data);
+                setMessage('Profile Updated');
+            }
         }
     };
 
     return (
-        <Row>
+        <Row className='m-3'>
             <Col md={3}>
                 <h2>User Profile</h2>
+                {error && <Message>{error}</Message>}
+                {message && <Message variant='info'>{message}</Message>}
                 {/* {loading && <Loader />} */}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
