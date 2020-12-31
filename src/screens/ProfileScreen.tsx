@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
-import { Button, Col, Form, Row, Table } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
 import { updateProfile } from '../actions/userActions';
