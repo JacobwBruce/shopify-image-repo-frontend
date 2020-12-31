@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const url = 'https://shopify-image-repo.herokuapp.com';
+const API_URL = 'https://shopify-image-repo.herokuapp.com';
 
 export const login = async (email: string, password: string) => {
     try {
-        const { data } = await axios.post(`${url}/api/users/login`, { email, password });
+        const { data } = await axios.post(`${API_URL}/api/users/login`, { email, password });
         localStorage.setItem('user', JSON.stringify(data));
         return data;
     } catch (error) {
@@ -14,7 +14,7 @@ export const login = async (email: string, password: string) => {
 
 export const register = async (name: string, email: string, password: string) => {
     try {
-        const { data } = await axios.post(`${url}/api/users`, { name, email, password });
+        const { data } = await axios.post(`${API_URL}/api/users`, { name, email, password });
         localStorage.setItem('user', JSON.stringify(data));
         return data;
     } catch (error) {
@@ -33,7 +33,7 @@ export const updateProfile = async (name: string, email: string, password: strin
             },
         };
         const { data } = await axios.put(
-            `${url}/api/users/profile`,
+            `${API_URL}/api/users/profile`,
             { name, email, password },
             config
         );
