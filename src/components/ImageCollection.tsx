@@ -11,7 +11,11 @@ const ImageCollection: FC<Props> = ({ images }) => {
         <Row className='d-flex justify-content-center'>
             {images!.map((image) => (
                 <Col key={image._id} xs={10} md={4} lg={3} className='m-4'>
-                    <Image src={`http://localhost:5000/api${image.url}`} rounded fluid />
+                    <Image
+                        src={`https://shopify-image-repo.herokuapp.com/api${image.url}`}
+                        rounded
+                        fluid
+                    />
                 </Col>
             ))}
         </Row>
