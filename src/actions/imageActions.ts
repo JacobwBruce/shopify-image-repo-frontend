@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ImageInterface from '../interfaces/ImageInterface';
 
 // const API_URL = 'https://shopify-image-repo.herokuapp.com';
 const API_URL = 'http://localhost:5000';
@@ -44,6 +45,15 @@ export const saveImage = async (
             config
         );
 
+        return data;
+    } catch (error) {
+        return { error };
+    }
+};
+
+export const getAllImages = async () => {
+    try {
+        const data = await axios.get(`${API_URL}/api/images`);
         return data;
     } catch (error) {
         return { error };

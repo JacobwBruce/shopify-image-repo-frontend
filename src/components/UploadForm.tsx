@@ -8,9 +8,10 @@ import Message from './Message';
 
 interface Props {
     redirectToLogin: Function;
+    refreshImages: Function;
 }
 
-const UploadForm: FC<Props> = ({ redirectToLogin }) => {
+const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<string | null>(null);
     const [uploadError, setUploadError] = useState<string | null>(null);
@@ -42,7 +43,6 @@ const UploadForm: FC<Props> = ({ redirectToLogin }) => {
 
     const submitHandler = (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
-        console.log('submitted');
         saveImageHandler();
     };
 
@@ -62,6 +62,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin }) => {
         }
 
         setLoading(false);
+        refreshImages();
     };
 
     const addTag = (e: React.FormEvent<HTMLFormElement>) => {
