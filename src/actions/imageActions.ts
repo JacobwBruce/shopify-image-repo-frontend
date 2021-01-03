@@ -24,6 +24,16 @@ export const uploadImage = async (file: File) => {
     }
 };
 
+export const deleteUploadedImage = async (url: string) => {
+    const filename = url.split('/')[2];
+
+    try {
+        await axios.delete(`${API_URL}/api/uploads/${filename}`);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export const saveImage = async (
     token: string,
     userId: string,

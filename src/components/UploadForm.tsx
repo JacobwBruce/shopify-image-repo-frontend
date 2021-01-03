@@ -2,7 +2,7 @@ import React, { FC, FormEvent, useState, useContext } from 'react';
 import { Modal, ModalBody, Form, Button, ModalFooter, Image } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { AppContext } from '..';
-import { uploadImage, saveImage } from '../actions/imageActions';
+import { uploadImage, saveImage, deleteUploadedImage } from '../actions/imageActions';
 import Loader from './Loader';
 import Message from './Message';
 
@@ -28,6 +28,10 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
         setLoading(true);
         setMessage(null);
         const file = e.target.files![0];
+
+        if (image) {
+            await deleteUploadedImage(image);
+        }
 
         const data = await uploadImage(file);
 
@@ -99,6 +103,13 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
         setTags(newTags);
     };
 
+    const cancelUpload = () => {
+        if (image) {
+            deleteUploadedImage(image);
+        }
+        setModalVisable(false);
+    };
+
     return (
         <>
             <div className='text-center mt-3'>
@@ -124,7 +135,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
                         <Form.Group controlId='image'>
                             {image && (
                                 <Image
-                                    src={`http://localhost:5000/api${image}`}
+                                    src={`https://shopify-image-repo.herokuapp.com/api${image}`}
                                     alt='trouble loading image'
                                     fluid
                                 />
@@ -179,7 +190,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
                     <Button onClick={saveImageHandler} variant='primary'>
                         Upload
                     </Button>
-                    <Button variant='warning' onClick={() => setModalVisable(false)}>
+                    <Button variant='warning' onClick={cancelUpload}>
                         Cancel
                     </Button>
                 </ModalFooter>
