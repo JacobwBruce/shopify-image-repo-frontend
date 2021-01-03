@@ -3,6 +3,19 @@ import axios from 'axios';
 const API_URL = 'https://shopify-image-repo.herokuapp.com';
 // const API_URL = 'http://localhost:5000';
 
+const getUserToken = () => {
+    const userInfo = JSON.parse(localStorage.getItem('user')!);
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userInfo.token}`,
+        },
+    };
+
+    return config;
+};
+
 export const uploadImage = async (file: File) => {
     const formData = new FormData();
 
@@ -71,17 +84,21 @@ export const getAllImages = async () => {
 
 export const getUserImages = async () => {
     try {
-        const userInfo = JSON.parse(localStorage.getItem('user')!);
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
-            },
-        };
+        const config = getUserToken();
         const data = await axios.get(`${API_URL}/api/images/user`, config);
         return data;
     } catch (error) {
+        return { error };
+    }
+};
+
+export const deleteImage = async (id: string) => {
+    try {
+        const config = getUserToken();
+        const { data } = await axios.delete(`${API_URL}/api/images/${id}`, config);
+        return data;
+    } catch (error) {
+        console.error(error);
         return { error };
     }
 };

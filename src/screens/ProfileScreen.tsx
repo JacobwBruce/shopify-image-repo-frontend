@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
-import { getUserImages } from '../actions/imageActions';
+import { deleteImage, getUserImages } from '../actions/imageActions';
 import { updateProfile } from '../actions/userActions';
 import ImageCollection from '../components/ImageCollection';
 import Loader from '../components/Loader';
@@ -19,6 +19,8 @@ const ProfileScreen: FC<Props> = ({ history }) => {
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [imageError, setImageError] = useState<string | null>(null);
+    const [imageMessage, setImageMessage] = useState<string | null>(null);
     const [imagesLoading, setImagesLoading] = useState(true);
     const [images, setImages] = useState<null | Array<ImageInterface>>(null);
 
@@ -32,6 +34,7 @@ const ProfileScreen: FC<Props> = ({ history }) => {
             setName(user.name);
             setEmail(user.email);
             getMyImages();
+            setImagesLoading(false);
         }
     }, [history, user]);
 
@@ -59,8 +62,22 @@ const ProfileScreen: FC<Props> = ({ history }) => {
 
         if (data.length !== 0) {
             setImages(data);
+        } else {
+            setImages(null);
         }
+    };
 
+    const deleteImageHandler = async (imageId: string) => {
+        setImagesLoading(true);
+        const data = await deleteImage(imageId);
+        //@ts-ignore
+        if (data.error) {
+            console.error(error);
+            setImageError('Error deleting image');
+        } else {
+            setImageMessage('Image deleted');
+            await getMyImages();
+        }
         setImagesLoading(false);
     };
 
@@ -122,12 +139,18 @@ const ProfileScreen: FC<Props> = ({ history }) => {
             </Col>
             <Col md={9}>
                 <h2>My Images</h2>
+                {imageError && <Message>{imageError}</Message>}
+                {imageMessage && <Message variant='info'>{imageMessage}</Message>}
                 {imagesLoading ? (
                     <Loader />
                 ) : !images ? (
                     <Message variant='info'>You have no images</Message>
                 ) : (
-                    <ImageCollection images={images} />
+                    <ImageCollection
+                        images={images}
+                        profileScreen={true}
+                        deleteImageHandler={deleteImageHandler}
+                    />
                 )}
             </Col>
         </Row>
