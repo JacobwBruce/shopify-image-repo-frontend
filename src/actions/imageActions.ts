@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ImageInterface from '../interfaces/ImageInterface';
 
 const API_URL = 'https://shopify-image-repo.herokuapp.com';
 // const API_URL = 'http://localhost:5000';
@@ -96,6 +97,17 @@ export const deleteImage = async (id: string) => {
     try {
         const config = getUserToken();
         const { data } = await axios.delete(`${API_URL}/api/images/${id}`, config);
+        return data;
+    } catch (error) {
+        console.error(error);
+        return { error };
+    }
+};
+
+export const updateImage = async (image: ImageInterface) => {
+    try {
+        const config = getUserToken();
+        const { data } = await axios.put(`${API_URL}/api/images/${image._id}`, image, config);
         return data;
     } catch (error) {
         console.error(error);

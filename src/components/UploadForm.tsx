@@ -126,7 +126,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
             </div>
 
             <Modal show={modalVisable} onHide={() => setModalVisable(false)}>
-                <ModalHeader>Upload an Image</ModalHeader>
+                <ModalHeader closeButton>Upload an Image</ModalHeader>
 
                 {uploadError && <Message>{uploadError}</Message>}
 

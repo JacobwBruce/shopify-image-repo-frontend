@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, FormEvent, useContext } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
-import { deleteImage, getUserImages } from '../actions/imageActions';
+import { deleteImage, getUserImages, updateImage } from '../actions/imageActions';
 import { updateProfile } from '../actions/userActions';
 import ImageCollection from '../components/ImageCollection';
 import Loader from '../components/Loader';
@@ -81,6 +81,20 @@ const ProfileScreen: FC<Props> = ({ history }) => {
         setImagesLoading(false);
     };
 
+    const editImageHandler = async (image: ImageInterface) => {
+        setImagesLoading(true);
+        const data = await updateImage(image);
+        //@ts-ignore
+        if (data.error) {
+            console.error(error);
+            setImageError('Error updating image');
+        } else {
+            setImageMessage('Image Updated');
+            await getMyImages();
+        }
+        setImagesLoading(false);
+    };
+
     return (
         <Row className='m-3'>
             <Col md={3}>
@@ -150,6 +164,7 @@ const ProfileScreen: FC<Props> = ({ history }) => {
                         images={images}
                         profileScreen={true}
                         deleteImageHandler={deleteImageHandler}
+                        editImageHandler={editImageHandler}
                     />
                 )}
             </Col>
