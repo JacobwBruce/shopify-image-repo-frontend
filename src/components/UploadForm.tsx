@@ -156,6 +156,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
                                 placeholder='Enter description'
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                autoComplete='off'
                             ></Form.Control>
                         </Form.Group>
 
@@ -170,6 +171,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
                                 placeholder='Enter tag'
                                 value={tagInput}
                                 onChange={(e) => setTagInput(e.target.value)}
+                                autoComplete='off'
                             ></Form.Control>
                         </Form.Group>
 

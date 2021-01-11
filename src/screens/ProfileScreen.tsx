@@ -7,6 +7,7 @@ import { updateProfile } from '../actions/userActions';
 import ImageCollection from '../components/ImageCollection';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import ProfileImageCollection from '../components/ProfileImageCollection';
 import ImageInterface from '../interfaces/ImageInterface';
 
 interface Props extends RouteComponentProps<any> {}
@@ -160,9 +161,8 @@ const ProfileScreen: FC<Props> = ({ history }) => {
                 ) : !images ? (
                     <Message variant='info'>You have no images</Message>
                 ) : (
-                    <ImageCollection
+                    <ProfileImageCollection
                         images={images}
-                        profileScreen={true}
                         deleteImageHandler={deleteImageHandler}
                         editImageHandler={editImageHandler}
                     />

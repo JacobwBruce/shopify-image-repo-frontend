@@ -22,6 +22,7 @@ const SearchBox: FC<RouteComponentProps> = ({ history }) => {
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder='Search by image tags...'
                 className='mr-sm-2 ml-sm-5'
+                autoComplete='off'
             ></Form.Control>
             <Button
                 type='submit'
