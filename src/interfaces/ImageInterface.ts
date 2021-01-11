@@ -3,4 +3,5 @@ export default interface ImageInterface {
     _id: string;
     description: string;
     tags: [string];
+    user?: string;
 }

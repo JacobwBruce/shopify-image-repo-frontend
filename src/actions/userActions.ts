@@ -43,3 +43,12 @@ export const updateProfile = async (name: string, email: string, password: strin
         return { error };
     }
 };
+
+export const getUserByID = async (id: string) => {
+    try {
+        const { data } = await axios.get(`${API_URL}/api/users/${id}`);
+        return data;
+    } catch (error) {
+        return { error };
+    }
+};

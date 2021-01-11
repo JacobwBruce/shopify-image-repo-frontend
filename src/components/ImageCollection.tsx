@@ -1,12 +1,29 @@
-import React, { FC } from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
+import React, { FC, useState } from 'react';
+import { Row, Col, Image, Modal, Button } from 'react-bootstrap';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { getUserByID } from '../actions/userActions';
 import ImageInterface from '../interfaces/ImageInterface';
 
-interface Props {
+interface Props extends RouteComponentProps {
     images: Array<ImageInterface> | null;
 }
 
-const ImageCollection: FC<Props> = ({ images }) => {
+const ImageCollection: FC<Props> = ({ images, history }) => {
+    const [selectedImage, setSelectedImage] = useState<ImageInterface | null>(null);
+    const [modalVisable, setModalVisable] = useState(false);
+    const [name, setName] = useState('');
+
+    const searchByTag = (tag: string) => {
+        history.push(`/search/${tag}`);
+    };
+
+    const openModal = async (image: ImageInterface) => {
+        const user = await getUserByID(image.user!);
+        setName(user.name);
+        setSelectedImage(image);
+        setModalVisable(true);
+    };
+
     return (
         <Row className='d-flex justify-content-center'>
             {images!.map((image) => (
@@ -15,11 +32,35 @@ const ImageCollection: FC<Props> = ({ images }) => {
                         src={`https://shopify-image-repo.herokuapp.com/api${image.url}`}
                         rounded
                         fluid
+                        onClick={() => openModal(image)}
+                        style={{ cursor: 'pointer' }}
                     />
                 </Col>
             ))}
+            <Modal show={modalVisable} onHide={() => setModalVisable(false)}>
+                <Modal.Header closeButton>{name}'s image</Modal.Header>
+                <Modal.Body>
+                    <Image
+                        src={`https://shopify-image-repo.herokuapp.com/api${selectedImage?.url}`}
+                        rounded
+                        fluid
+                    />
+                    <h4 className='my-3'>{selectedImage?.description}</h4>
+                    {selectedImage?.tags.map((tag: string) => (
+                        <span key={tag} className='m-2'>
+                            <Button
+                                variant='success'
+                                onClick={() => searchByTag(tag)}
+                                style={{ marginBottom: '.5rem' }}
+                            >
+                                {tag}
+                            </Button>
+                        </span>
+                    ))}
+                </Modal.Body>
+            </Modal>
         </Row>
     );
 };
 
-export default ImageCollection;
+export default withRouter(ImageCollection);
