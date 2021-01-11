@@ -74,9 +74,9 @@ export const saveImage = async (
     }
 };
 
-export const getAllImages = async () => {
+export const getImages = async (keyword = '') => {
     try {
-        const data = await axios.get(`${API_URL}/api/images`);
+        const data = await axios.get(`${API_URL}/api/images?keyword=${keyword}`);
         return data;
     } catch (error) {
         return { error };

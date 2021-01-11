@@ -1,13 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { getAllImages } from '../actions/imageActions';
+import { getImages } from '../actions/imageActions';
 import UploadForm from '../components/UploadForm';
 import ImageInterface from '../interfaces/ImageInterface';
 import { Row } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import ImageCollection from '../components/ImageCollection';
 
-const HomeScreen: FC<RouteComponentProps> = ({ history }) => {
+const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
+    //@ts-ignore
+    const keyword = match.params.keyword;
+
     const [images, setImages] = useState<null | Array<ImageInterface>>(null);
     const [loading, setLoading] = useState(true);
 
@@ -16,13 +19,13 @@ const HomeScreen: FC<RouteComponentProps> = ({ history }) => {
     };
 
     useEffect(() => {
-        getImages();
-    }, []);
+        displayImages();
+    }, [keyword]);
 
-    const getImages = async () => {
+    const displayImages = async () => {
         setLoading(true);
         //@ts-ignore
-        const { data } = await getAllImages();
+        const { data } = await getImages(keyword);
 
         //@ts-ignore
         setImages(data);
@@ -31,7 +34,7 @@ const HomeScreen: FC<RouteComponentProps> = ({ history }) => {
 
     return (
         <div>
-            <UploadForm redirectToLogin={redirectToLogin} refreshImages={getImages} />
+            <UploadForm redirectToLogin={redirectToLogin} refreshImages={displayImages} />
             <Row className='d-flex justify-content-center'>
                 {loading ? <Loader /> : <ImageCollection images={images} />}
             </Row>

@@ -21,10 +21,11 @@ const Routing = () => {
             <Router>
                 <Header />
                 <Switch>
-                    <Route exact path='/' component={HomeScreen} />
                     <Route path='/login' component={LoginScreen} />
                     <Route path='/register' component={RegisterScreen} />
                     <Route path='/profile' component={ProfileScreen} />
+                    <Route path='/search/:keyword' component={HomeScreen} />
+                    <Route exact path='/' component={HomeScreen} />
                 </Switch>
             </Router>
         </AppContext.Provider>

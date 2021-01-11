@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { AppContext } from '..';
+import SearchBox from './SearchBox';
 
 const Header: React.FC = () => {
     //@ts-ignore
@@ -21,6 +22,7 @@ const Header: React.FC = () => {
                     </LinkContainer>
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
+                        <SearchBox />
                         <Nav className='ml-auto'>
                             {Object.entries(user).length !== 0 ? (
                                 <NavDropdown title={user.name} id='username'>
