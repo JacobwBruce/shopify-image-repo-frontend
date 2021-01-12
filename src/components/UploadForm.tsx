@@ -63,6 +63,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
         } else {
             setSaveError(null);
             setMessage('Successfully uploaded image! ✨');
+            setTimeout(() => setMessage(null), 10 * 1000);
         }
 
         setLoading(false);
