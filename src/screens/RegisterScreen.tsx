@@ -31,8 +31,11 @@ const RegisterScreen: FC<Props> = ({ location, history }) => {
     const submitHandler = async (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
         setLoading(true);
+
         if (password !== confirmPassword) {
             setError('Passwords do not match');
+        } else if (password.length < 8) {
+            setError('Password must be atleast 8 characters long');
         } else {
             const data = await register(name, email, password);
             //@ts-ignore
@@ -60,6 +63,7 @@ const RegisterScreen: FC<Props> = ({ location, history }) => {
                             <Form.Control
                                 type='text'
                                 placeholder='Enter name'
+                                required
                                 value={name}
                                 onChange={(e: any) => setName(e.target.value)}
                             ></Form.Control>
@@ -70,6 +74,7 @@ const RegisterScreen: FC<Props> = ({ location, history }) => {
                             <Form.Control
                                 type='email'
                                 placeholder='Enter email'
+                                required
                                 value={email}
                                 onChange={(e: any) => setEmail(e.target.value)}
                             ></Form.Control>
@@ -80,6 +85,7 @@ const RegisterScreen: FC<Props> = ({ location, history }) => {
                             <Form.Control
                                 type='password'
                                 placeholder='Enter password'
+                                required
                                 value={password}
                                 onChange={(e: any) => setPassword(e.target.value)}
                             ></Form.Control>
@@ -90,6 +96,7 @@ const RegisterScreen: FC<Props> = ({ location, history }) => {
                             <Form.Control
                                 type='password'
                                 placeholder='Confirm Password'
+                                required
                                 value={confirmPassword}
                                 onChange={(e: any) => setConfirmPassword(e.target.value)}
                             ></Form.Control>

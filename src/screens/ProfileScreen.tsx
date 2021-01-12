@@ -4,7 +4,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import { AppContext } from '..';
 import { deleteImage, getUserImages, updateImage } from '../actions/imageActions';
 import { updateProfile } from '../actions/userActions';
-import ImageCollection from '../components/ImageCollection';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import ProfileImageCollection from '../components/ProfileImageCollection';
