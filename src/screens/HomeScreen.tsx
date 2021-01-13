@@ -6,6 +6,7 @@ import ImageInterface from '../interfaces/ImageInterface';
 import { Row } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import ImageCollection from '../components/ImageCollection';
+import '../globalCSS/styles.css';
 
 const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
     //@ts-ignore
@@ -35,7 +36,7 @@ const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
     return (
         <div>
             <UploadForm redirectToLogin={redirectToLogin} refreshImages={displayImages} />
-            <Row className='d-flex justify-content-center'>
+            <Row className='d-flex justify-content-center images-container'>
                 {loading ? <Loader /> : <ImageCollection images={images} />}
             </Row>
         </div>

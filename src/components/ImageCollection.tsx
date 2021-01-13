@@ -3,6 +3,7 @@ import { Row, Col, Image, Modal, Button } from 'react-bootstrap';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { getUserByID } from '../actions/userActions';
 import ImageInterface from '../interfaces/ImageInterface';
+import '../globalCSS/styles.css';
 
 interface Props extends RouteComponentProps {
     images: Array<ImageInterface> | null;
@@ -25,7 +26,7 @@ const ImageCollection: FC<Props> = ({ images, history }) => {
     };
 
     return (
-        <Row className='d-flex justify-content-center'>
+        <Row className='d-flex justify-content-center images-container'>
             {images!.map((image) => (
                 <Col key={image._id} xs={10} md={4} lg={3} className='m-4'>
                     <Image
