@@ -36,10 +36,12 @@ const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
 
     return (
         <div>
-            <UploadForm redirectToLogin={redirectToLogin} refreshImages={displayImages} />
+            {!keyword && (
+                <UploadForm redirectToLogin={redirectToLogin} refreshImages={displayImages} />
+            )}
             {images?.length === 0 ? (
                 <div className='container'>
-                    <Message variant='info'>No Images Found! 😔</Message>
+                    <Message variant='info my-4'>No Images Found! 😔</Message>
                 </div>
             ) : (
                 <Row className='d-flex justify-content-center images-container'>
