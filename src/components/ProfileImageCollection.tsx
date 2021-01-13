@@ -70,6 +70,7 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
                     <Image
                         className='profile-images'
                         src={`https://shopify-image-repo.herokuapp.com/api${image.url}`}
+                        alt='Trouble loading image!'
                         rounded
                         fluid
                     />
@@ -114,7 +115,7 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
                         <Form.Group>
                             <Image
                                 src={`https://shopify-image-repo.herokuapp.com/api${selectedImage}`}
-                                alt='trouble loading image'
+                                alt='Trouble loading image!'
                                 fluid
                             />
                         </Form.Group>

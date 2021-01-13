@@ -31,6 +31,7 @@ const ImageCollection: FC<Props> = ({ images, history }) => {
                 <Col key={image._id} xs={10} md={4} lg={3} className='m-4'>
                     <Image
                         src={`https://shopify-image-repo.herokuapp.com/api${image.url}`}
+                        alt='Trouble loading image!'
                         rounded
                         fluid
                         onClick={() => openModal(image)}
@@ -45,6 +46,7 @@ const ImageCollection: FC<Props> = ({ images, history }) => {
                         src={`https://shopify-image-repo.herokuapp.com/api${selectedImage?.url}`}
                         rounded
                         fluid
+                        alt='Trouble loading image!'
                     />
                     <h4 className='my-3'>{selectedImage?.description}</h4>
                     {selectedImage?.tags.map((tag: string) => (
