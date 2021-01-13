@@ -7,6 +7,7 @@ import { Row } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import ImageCollection from '../components/ImageCollection';
 import '../globalCSS/styles.css';
+import Message from '../components/Message';
 
 const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
     //@ts-ignore
@@ -36,9 +37,15 @@ const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
     return (
         <div>
             <UploadForm redirectToLogin={redirectToLogin} refreshImages={displayImages} />
-            <Row className='d-flex justify-content-center images-container'>
-                {loading ? <Loader /> : <ImageCollection images={images} />}
-            </Row>
+            {images?.length === 0 ? (
+                <div className='container'>
+                    <Message variant='info'>No Images Found! 😔</Message>
+                </div>
+            ) : (
+                <Row className='d-flex justify-content-center images-container'>
+                    {loading ? <Loader /> : <ImageCollection images={images} />}
+                </Row>
+            )}
         </div>
     );
 };
