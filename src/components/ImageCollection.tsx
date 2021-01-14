@@ -30,7 +30,7 @@ const ImageCollection: FC<Props> = ({ images, history }) => {
             {images!.map((image) => (
                 <Col key={image._id} xs={10} md={4} lg={3} className='m-4'>
                     <Image
-                        src={`https://shopify-image-repo.herokuapp.com/api${image.url}`}
+                        src={image.url}
                         alt='Trouble loading image!'
                         rounded
                         fluid
@@ -42,12 +42,7 @@ const ImageCollection: FC<Props> = ({ images, history }) => {
             <Modal show={modalVisable} onHide={() => setModalVisable(false)}>
                 <Modal.Header closeButton>{name}'s image</Modal.Header>
                 <Modal.Body>
-                    <Image
-                        src={`https://shopify-image-repo.herokuapp.com/api${selectedImage?.url}`}
-                        rounded
-                        fluid
-                        alt='Trouble loading image!'
-                    />
+                    <Image src={selectedImage?.url} rounded fluid alt='Trouble loading image!' />
                     <h4 className='my-3'>{selectedImage?.description}</h4>
                     {selectedImage?.tags.map((tag: string) => (
                         <span key={tag} className='m-2'>
