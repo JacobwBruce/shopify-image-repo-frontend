@@ -16,20 +16,21 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
     const [selectedId, setSelectedId] = useState('');
     const [deleteModal, setDeleteModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<ImageInterface | null>(null);
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState<Array<string>>([]);
     const [tagInput, setTagInput] = useState('');
     const [uploadError, setUploadError] = useState<string | null>(null);
 
-    const openDeleteModal = (id: string) => {
-        setSelectedId(id);
+    const openDeleteModal = (image: ImageInterface) => {
+        setSelectedImage(image);
         setDeleteModal(true);
     };
 
     const openEditModal = (image: ImageInterface) => {
         setUploadError(null);
-        setSelectedImage(image.url);
+        setSelectedUrl(image.url);
         setSelectedId(image._id);
         setDescription(image.description);
         setTags(image.tags);
@@ -78,7 +79,7 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
                         <Button variant='warning' onClick={() => openEditModal(image)}>
                             Edit
                         </Button>
-                        <Button variant='danger' onClick={() => openDeleteModal(image._id)}>
+                        <Button variant='danger' onClick={() => openDeleteModal(image)}>
                             Delete
                         </Button>
                     </div>
@@ -90,7 +91,7 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
                     <Button variant='secondary' onClick={() => setDeleteModal(false)}>
                         Close
                     </Button>
-                    <Button variant='danger' onClick={() => deleteImageHandler!(selectedId)}>
+                    <Button variant='danger' onClick={() => deleteImageHandler!(selectedImage)}>
                         Delete
                     </Button>
                 </Modal.Footer>
@@ -106,14 +107,14 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
                         onSubmit={() =>
                             editImageHandler!({
                                 _id: selectedId,
-                                url: selectedImage,
+                                url: selectedUrl,
                                 description,
                                 tags,
                             })
                         }
                     >
                         <Form.Group>
-                            <Image src={selectedImage!} alt='Trouble loading image!' fluid />
+                            <Image src={selectedUrl!} alt='Trouble loading image!' fluid />
                         </Form.Group>
                         <Form.Group controlId='description'>
                             <Form.Label>Description</Form.Label>
@@ -159,7 +160,7 @@ const ProfileImageCollection: FC<Props> = ({ images, deleteImageHandler, editIma
                         onClick={() =>
                             editImageHandler!({
                                 _id: selectedId,
-                                url: selectedImage,
+                                url: selectedUrl,
                                 description,
                                 tags,
                             })

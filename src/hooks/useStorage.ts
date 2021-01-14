@@ -9,7 +9,7 @@ const useStorage = (file: File | null) => {
     useEffect(() => {
         //references
         if (file) {
-            const storageRef = projectStorage.ref(file!.name + Date.now());
+            const storageRef = projectStorage.ref(Date.now() + file!.name);
 
             storageRef.put(file!).on(
                 'state_change',
@@ -28,7 +28,7 @@ const useStorage = (file: File | null) => {
         }
     }, [file]);
 
-    return { progress, url, error };
+    return { progress, url, error, setUrl };
 };
 
 export default useStorage;

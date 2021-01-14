@@ -67,15 +67,16 @@ const ProfileScreen: FC<Props> = ({ history }) => {
         }
     };
 
-    const deleteImageHandler = async (imageId: string) => {
+    const deleteImageHandler = async (image: ImageInterface) => {
         setImagesLoading(true);
-        const data = await deleteImage(imageId);
+        const data = await deleteImage(image);
         //@ts-ignore
         if (data.error) {
             console.error(error);
             setImageError('Error deleting image');
         } else {
             setImageMessage('Image deleted');
+            setTimeout(() => setImageMessage(null), 10 * 1000);
             await getMyImages();
         }
         setImagesLoading(false);

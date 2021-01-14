@@ -3,7 +3,7 @@ import { ProgressBar } from 'react-bootstrap';
 import { Modal, ModalBody, Form, Button, ModalFooter, Image } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { AppContext } from '..';
-import { saveImage, deleteImage } from '../actions/imageActions';
+import { saveImage, deleteFile } from '../actions/imageActions';
 import useStorage from '../hooks/useStorage';
 import Loader from './Loader';
 import Message from './Message';
@@ -23,7 +23,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
     const [tagInput, setTagInput] = useState('');
     const [message, setMessage] = useState<string | null>(null);
     const [modalVisable, setModalVisable] = useState(false);
-    const { url, progress } = useStorage(file);
+    const { url, progress, setUrl } = useStorage(file);
     //@ts-ignore
     const { user } = useContext(AppContext);
 
@@ -31,6 +31,13 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
         setLoading(true);
         setMessage(null);
         setUploadError(null);
+
+        //if there is already a file
+        if (file) {
+            await deleteFile(url!);
+            setUrl(null);
+        }
+
         const selected = e.target.files![0];
 
         const types = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -57,7 +64,8 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
             setSaveError('Please upload an image to save it');
         } else {
             const data = await saveImage(user.token, user._id, url!, description, tags);
-
+            setFile(null);
+            setUrl(null);
             setModalVisable(false);
 
             if (data.error) {
@@ -109,7 +117,7 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
 
     const cancelUpload = () => {
         if (url) {
-            deleteImage(url);
+            deleteFile(url);
         }
         setModalVisable(false);
     };
