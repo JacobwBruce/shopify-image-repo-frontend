@@ -1,6 +1,7 @@
 import React, { FC, FormEvent, useState, useContext } from 'react';
 import { Modal, ModalBody, Form, Button, ModalFooter, Image } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
+import { types } from 'util';
 import { AppContext } from '..';
 import { uploadImage, saveImage, deleteUploadedImage } from '../actions/imageActions';
 import Loader from './Loader';
@@ -27,19 +28,16 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
     const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoading(true);
         setMessage(null);
+        setUploadError(null);
         const file = e.target.files![0];
 
-        if (image) {
-            await deleteUploadedImage(image);
-        }
+        const types = ['image/png', 'image/jpeg', 'image/jpg'];
 
-        const data = await uploadImage(file);
-
-        if (data.error) {
-            setUploadError('Please upload images only');
+        if (file && types.includes(file.type)) {
+            //upload image to firebase here
+            //setImage to the returned image url;
         } else {
-            setUploadError(null);
-            setImage(data);
+            setUploadError('Please select a image file (png, jpg or jpeg');
         }
 
         setLoading(false);
@@ -54,20 +52,24 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
         setLoading(true);
         setMessage(null);
 
-        const data = await saveImage(user.token, user._id, image!, description, tags);
-
-        setModalVisable(false);
-
-        if (data.error) {
-            setSaveError('Error uploading image');
+        if (!image) {
+            setSaveError('Please upload an image to save it');
         } else {
-            setSaveError(null);
-            setMessage('Successfully uploaded image! ✨');
-            setTimeout(() => setMessage(null), 10 * 1000);
-        }
+            const data = await saveImage(user.token, user._id, image!, description, tags);
 
-        setLoading(false);
-        refreshImages();
+            setModalVisable(false);
+
+            if (data.error) {
+                setSaveError('Error uploading image');
+            } else {
+                setSaveError(null);
+                setMessage('Successfully uploaded image! ✨');
+                setTimeout(() => setMessage(null), 10 * 1000);
+            }
+
+            setLoading(false);
+            refreshImages();
+        }
     };
 
     const addTag = (e: React.FormEvent<HTMLFormElement>) => {
