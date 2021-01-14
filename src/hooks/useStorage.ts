@@ -9,7 +9,7 @@ const useStorage = (file: File | null) => {
     useEffect(() => {
         //references
         if (file) {
-            const storageRef = projectStorage.ref(file!.name);
+            const storageRef = projectStorage.ref(file!.name + Date.now());
 
             storageRef.put(file!).on(
                 'state_change',

@@ -3,7 +3,7 @@ import { ProgressBar } from 'react-bootstrap';
 import { Modal, ModalBody, Form, Button, ModalFooter, Image } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { AppContext } from '..';
-import { saveImage, deleteUploadedImage } from '../actions/imageActions';
+import { saveImage, deleteImage } from '../actions/imageActions';
 import useStorage from '../hooks/useStorage';
 import Loader from './Loader';
 import Message from './Message';
@@ -15,7 +15,6 @@ interface Props {
 
 const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
     const [loading, setLoading] = useState(false);
-    // const [image, setImage] = useState<string | null>(null);
     const [file, setFile] = useState<File | null>(null);
     const [uploadError, setUploadError] = useState<string | null>(null);
     const [saveError, setSaveError] = useState<string | null>(null);
@@ -109,11 +108,10 @@ const UploadForm: FC<Props> = ({ redirectToLogin, refreshImages }) => {
     };
 
     const cancelUpload = () => {
-        // if (image) {
-        //     deleteUploadedImage(image);
-        // }
-        // setModalVisable(false);
-        //delete image from firebase
+        if (url) {
+            deleteImage(url);
+        }
+        setModalVisable(false);
     };
 
     return (
