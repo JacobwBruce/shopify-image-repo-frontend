@@ -23,7 +23,23 @@ const Header: React.FC = () => {
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <SearchBox />
-                        <Nav className='ml-auto'>
+                        <Nav className='ml-auto mr-2'>
+                            <NavDropdown title='View Code' id='code-links'>
+                                <NavDropdown.Item
+                                    href='https://github.com/JacobwBruce/shopify-image-repo-backend'
+                                    target='__blank'
+                                >
+                                    Back end
+                                </NavDropdown.Item>
+                                <NavDropdown.Item
+                                    href='https://github.com/JacobwBruce/shopify-image-repo-frontend'
+                                    target='__blank'
+                                >
+                                    Front end
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                        <Nav>
                             {Object.entries(user).length !== 0 ? (
                                 <NavDropdown title={user.name} id='username'>
                                     <LinkContainer to='/profile'>
