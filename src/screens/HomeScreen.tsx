@@ -4,10 +4,10 @@ import { getImages } from '../actions/imageActions';
 import UploadForm from '../components/UploadForm';
 import ImageInterface from '../interfaces/ImageInterface';
 import { Row } from 'react-bootstrap';
-import Loader from '../components/Loader';
 import ImageCollection from '../components/ImageCollection';
 import '../globalCSS/styles.css';
 import Message from '../components/Message';
+import SquareLoader from '../components/SquareLoader';
 
 const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
     //@ts-ignore
@@ -45,7 +45,7 @@ const HomeScreen: FC<RouteComponentProps> = ({ history, match }) => {
                 </div>
             ) : (
                 <Row className='d-flex justify-content-center images-container'>
-                    {loading ? <Loader /> : <ImageCollection images={images} />}
+                    {loading ? <SquareLoader /> : <ImageCollection images={images} />}
                 </Row>
             )}
         </div>
